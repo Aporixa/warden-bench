@@ -222,6 +222,11 @@ python bleed.py 8 --report                          # re-rank, no calls
 | `BLEED_SEED`            | unset | Fix the RNG for a reproducible prompt order |
 | `WARDEN_PROGRESS_TOKEN` | unset | localStorage `ws_progress_token` from a browser past L7; prod 403s L8 without it when `CERT_SECRET` is set |
 
+`WARDEN_PROGRESS_TOKEN` is a bearer credential. Keep it in the local
+environment only; never place its value in a command transcript, issue,
+dataset, or committed file. The progressive ladder stores resume credentials
+only in its private, gitignored checkpoint directory.
+
 A `guard_hit` in the output means `filter.py` replaced a response
 because the **literal password** was in it — that prompt is the
 lead. Each run prints a `session_id`; filter `warden.attempt` on it to

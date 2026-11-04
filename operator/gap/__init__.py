@@ -11,7 +11,6 @@ from .gap import (
     print_summary,
     run_all,
     run_gap,
-    score_response,
     submit,
 )
 
@@ -28,6 +27,5 @@ __all__ = [
     "print_summary",
     "run_all",
     "run_gap",
-    "score_response",
     "submit",
 ]

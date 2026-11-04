@@ -1,5 +1,9 @@
 # Warden Run Summary
 
+> Historical generated artifact from the April 2026 standalone harness. It is
+> not a result from the current progressive ladder and must not be used as the
+> current benchmark result.
+
 **Generated:** 2026-04-25 23:44:54 UTC  
 **Source log:** `warden-probes.jsonl`  
 **Total attacker calls:** 54  

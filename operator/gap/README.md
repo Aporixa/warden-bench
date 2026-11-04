@@ -1,5 +1,9 @@
 # GAP — Graph of Attacks with Pruning
 
+> This page documents the standalone GAP driver. For progressive completion,
+> use the shared [ladder](../ladder/README.md), which invokes GAP without
+> restarting cleared gates.
+
 A graph-search companion to the linear PAIR loop in
 `../warden-operator.ipynb` and the tree-search variant in
 `../tap/tap.py`. Same target, same briefs, same judge — different
@@ -57,11 +61,11 @@ whole frontier instead of treating them as direct path elements.
   per node, rather than `b` independent calls. `b`× cheaper with
   comparable diversity when the attacker is told siblings must
   diverge.
-- **Heuristic scoring, not LLM scoring.** Reuses `score_response`
-  from `../tap/tap.py` so GAP and TAP results stay comparable on
+- **Deterministic evidence scoring, not LLM scoring.** Uses the shared
+  `AdaptiveSelectionPolicy` from `../core/evidence.py` so GAP and TAP results stay comparable on
   the same workshop budget. The paper uses a separate jailbreak-
-  judge LLM with finer-grained scores; we keep TAP's six-bucket
-  heuristic.
+  judge LLM with finer-grained scores; Warden Bench uses shared response
+  classes.
 - **No off-topic pruning.** The brief constrains the attacker
   enough that off-topic prompts almost never happen.
 - **First-parent-only path rendering.** GAP nodes can technically

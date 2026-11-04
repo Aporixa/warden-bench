@@ -1,5 +1,11 @@
 # Warden Operator Harness — Usage Guide
 
+> Historical standalone-harness reference. The progressive ladder documented
+> in the repository [README](../README.md) is the canonical completion and
+> evaluation entry point. The commands below remain useful for isolated driver
+> experiments, but they do not describe the ladder's shared state, budgets, or
+> current publication workflow.
+
 Operator-side tooling for the Warden lab — testing intended solve
 paths, regressing the lab after defense edits, and generating fresh
 attack prompts against it. Four drivers share one set of briefs,

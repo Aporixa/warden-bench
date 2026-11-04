@@ -6,10 +6,16 @@ __pycache__/
 *.egg-info/
 .ipynb_checkpoints/
 
-# Secrets
+# Secrets (also enforced by .githooks/pre-commit)
 .env
 .env.*
+**/.env
+**/.env.*
 !.env.example
+!**/.env.example
+*.pem
+*.key
+.envrc
 
 # Browser session state (auth cookies, localStorage) — never commit
 .session/
@@ -24,3 +30,7 @@ browser-agent/audio/
 
 .DS_Store
 Thumbs.db
+
+# Ladder runs hold raw, unredacted responses; publish only after redaction review
+operator/ladder/runs/
+operator/ladder/checkpoints/

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Block commits that would publish a secret. Enable once per clone:
+#   git config core.hooksPath .githooks
+# Bypass only if you are sure (e.g. a redacted placeholder): git commit --no-verify
+set -uo pipefail
+fail=0
+
+# 1. Files that must never be committed, whatever .gitignore says.
+while IFS= read -r f; do
+  case "$f" in
+    *.env.example) ;;
+    .env|*/.env|.env.*|*/.env.*|*.pem|*.key|*/storage_state*.json|*/.session/*|operator/ladder/runs/*|operator/ladder/checkpoints/*)
+      echo "pre-commit: refusing to commit $f" >&2; fail=1 ;;
+  esac
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+# 2. Key-shaped strings in added lines. Matches are reported by file only,
+#    never printed, so the hook itself cannot echo a key into a terminal log.
+patterns='sk-ant-[A-Za-z0-9_-]{20,}|sk-(proj|svcacct|admin)-[A-Za-z0-9_-]{20,}|\bsk-[A-Za-z0-9]{40,}|xai-[A-Za-z0-9]{30,}|xox[abprs]-[A-Za-z0-9-]{10,}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|\b(AKIA|ASIA)[0-9A-Z]{16}\b|-----BEGIN [A-Z ]*PRIVATE KEY-----|eyJ[A-Za-z0-9_-]{20,}\.eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}'
+while IFS= read -r f; do
+  [[ -f "$f" ]] || continue
+  if git diff --cached -U0 -- "$f" | grep -E '^\+' | grep -qE "$patterns"; then
+    echo "pre-commit: $f has a key-shaped string in its staged changes" >&2; fail=1
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+if [[ $fail -ne 0 ]]; then
+  echo "pre-commit: commit blocked. Unstage with: git restore --staged <file>" >&2
+fi
+exit $fail

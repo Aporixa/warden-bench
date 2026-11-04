@@ -1,5 +1,9 @@
 # TAP — Tree of Attacks with Pruning
 
+> This page documents the standalone TAP driver. For progressive completion,
+> use the shared [ladder](../ladder/README.md), which invokes TAP without
+> restarting cleared gates.
+
 A branching companion to the linear PAIR loop in
 `../warden-operator.ipynb`. Same target, same briefs, same judge —
 different exploration shape.
